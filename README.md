@@ -1,1 +1,1 @@
-https://muhammad-reyka-portofolio.vercel.app/
+https://muhammad-reyka-portofolio.vercel.app
