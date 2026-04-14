@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Projects by Muhammad Reyka Agastya Divaputra - Portfolio of work and personal projects">
+  <title>Projects | Reyka Divaputra</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Internal CSS: specific styles for Projects page -->
+  <style>
+    /* ---- PROJECT GRID ---- */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-xl);
+    }
+
+    /* ---- PROJECT CARD ---- */
+    .project-card {
+      background-color: var(--color-bg-secondary);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+
+    .project-card:hover {
+      background-color: var(--color-bg-elevated);
+      border-color: rgba(255, 255, 255, 0.08);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .project-card:hover .project-card-image img {
+      transform: scale(1.05);
+    }
+
+    .project-card:hover .project-card-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .project-card-image {
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .project-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform var(--transition-slow);
+    }
+
+    .project-card-image::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: linear-gradient(to top, var(--color-bg-secondary), transparent);
+      pointer-events: none;
+      transition: background var(--transition-base);
+    }
+
+    .project-card:hover .project-card-image::after {
+      background: linear-gradient(to top, var(--color-bg-elevated), transparent);
+    }
+
+    .project-card-body {
+      padding: var(--space-lg) var(--space-xl) var(--space-xl);
+    }
+
+    .project-card-category {
+      font-size: var(--font-size-xs);
+      color: var(--color-accent);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: var(--space-sm);
+    }
+
+    .project-card-title {
+      font-size: var(--font-size-xl);
+      font-weight: 600;
+      margin-bottom: var(--space-sm);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+
+    .project-card-arrow {
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: all var(--transition-fast);
+      color: var(--color-accent);
+      flex-shrink: 0;
+    }
+
+    .project-card-desc {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+      margin-bottom: var(--space-md);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .project-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+    }
+
+    .project-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      background-color: rgba(29, 185, 84, 0.1);
+      color: var(--color-accent);
+      border-radius: 500px;
+      border: 1px solid rgba(29, 185, 84, 0.15);
+    }
+
+    /* ---- PROJECT MODAL (DETAIL OVERLAY) ---- */
+    .project-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background-color: rgba(0, 0, 0, 0);
+      backdrop-filter: blur(0px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-xl);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .project-modal-overlay.active {
+      background-color: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .project-modal {
+      background-color: var(--color-bg-secondary);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      max-width: 780px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+      transform: scale(0.92) translateY(20px);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .project-modal-overlay.active .project-modal {
+      transform: scale(1) translateY(0);
+    }
+
+    /* Custom scrollbar for modal */
+    .project-modal::-webkit-scrollbar {
+      width: 6px;
+    }
+    .project-modal::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .project-modal::-webkit-scrollbar-thumb {
+      background-color: var(--color-bg-highlight);
+      border-radius: 3px;
+    }
+
+    .project-modal-image {
+      width: 100%;
+      height: 320px;
+      overflow: hidden;
+      position: relative;
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    }
+
+    .project-modal-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .project-modal-image::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 100px;
+      background: linear-gradient(to top, var(--color-bg-secondary), transparent);
+      pointer-events: none;
+    }
+
+    .project-modal-close {
+      position: absolute;
+      top: var(--space-md);
+      right: var(--space-md);
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-full);
+      color: var(--color-text-primary);
+      font-size: var(--font-size-lg);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      z-index: 10;
+    }
+
+    .project-modal-close:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      transform: rotate(90deg);
+    }
+
+    .project-modal-body {
+      padding: var(--space-xl) var(--space-2xl) var(--space-2xl);
+    }
+
+    .project-modal-category {
+      font-size: var(--font-size-xs);
+      color: var(--color-accent);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: var(--space-sm);
+    }
+
+    .project-modal-title {
+      font-size: var(--font-size-3xl);
+      font-weight: 700;
+      margin-bottom: var(--space-lg);
+    }
+
+    .project-modal-description {
+      font-size: var(--font-size-base);
+      color: var(--color-text-secondary);
+      line-height: 1.8;
+      margin-bottom: var(--space-xl);
+    }
+
+    .project-modal-description p {
+      margin-bottom: var(--space-md);
+    }
+
+    .project-modal-description p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Modal info grid */
+    .project-modal-info {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+      margin-bottom: var(--space-xl);
+      padding: var(--space-lg);
+      background-color: var(--color-bg-elevated);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .project-modal-info-item {
+      text-align: center;
+    }
+
+    .project-modal-info-label {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .project-modal-info-value {
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    /* Tech stack in modal */
+    .project-modal-tech {
+      margin-bottom: var(--space-xl);
+    }
+
+    .project-modal-tech-title {
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: var(--space-md);
+    }
+
+    .project-modal-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    .project-modal-tag {
+      display: inline-block;
+      padding: 6px 14px;
+      font-size: var(--font-size-xs);
+      font-weight: 500;
+      background-color: rgba(29, 185, 84, 0.12);
+      color: var(--color-accent);
+      border-radius: 500px;
+      border: 1px solid rgba(29, 185, 84, 0.2);
+    }
+
+    /* Highlights / features list */
+    .project-modal-highlights {
+      margin-bottom: var(--space-xl);
+    }
+
+    .project-modal-highlights-title {
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: var(--space-md);
+    }
+
+    .project-modal-highlights ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .project-modal-highlights li {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+      padding-left: var(--space-lg);
+      position: relative;
+      margin-bottom: var(--space-sm);
+    }
+
+    .project-modal-highlights li::before {
+      content: '▹';
+      position: absolute;
+      left: 0;
+      color: var(--color-accent);
+      font-size: var(--font-size-sm);
+    }
+
+    /* Modal CTA */
+    .project-modal-actions {
+      display: flex;
+      gap: var(--space-md);
+      padding-top: var(--space-lg);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 900px) {
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+      .project-modal-info {
+        grid-template-columns: 1fr;
+        gap: var(--space-sm);
+      }
+      .project-modal-info-item {
+        text-align: left;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--space-sm) 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      }
+      .project-modal-info-item:last-child {
+        border-bottom: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .project-modal-body {
+        padding: var(--space-lg) var(--space-lg) var(--space-xl);
+      }
+      .project-modal-image {
+        height: 200px;
+      }
+      .project-modal-title {
+        font-size: var(--font-size-2xl);
+      }
+      .project-modal-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVIGATION BAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-logo">Muhammad Reyka</a>
+      <ul class="navbar-menu" id="navbar-menu">
+        <li><a href="index.html" class="navbar-link">Home</a></li>
+        <li><a href="about.html" class="navbar-link">About</a></li>
+        <li><a href="experience.html" class="navbar-link">Experience</a></li>
+        <li><a href="projects.html" class="navbar-link active">Projects</a></li>
+        <li><a href="contact.html" class="navbar-link">Contact</a></li>
+      </ul>
+      <button class="navbar-toggle" id="navbar-toggle" aria-label="Toggle menu" onclick="document.getElementById('navbar-menu').classList.toggle('show')">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content">
+
+    <!-- Page Header -->
+    <header class="page-header" id="projects-header">
+      <div class="container">
+        <div class="divider fade-in"></div>
+        <h1 class="section-title fade-in">My <span class="accent-text">Projects</span></h1>
+        <p class="section-subtitle fade-in fade-in-delay-1">A showcase of things I've built, explored, and experimented with.</p>
+      </div>
+    </header>
+
+    <!-- Projects Grid Section -->
+    <section class="section" id="projects-section">
+      <div class="container">
+        <div class="projects-grid">
+
+          <!-- Project Card 1: IoT Smart Home -->
+          <div class="project-card fade-in" onclick="openProjectModal('project-1')" id="card-project-1">
+            <div class="project-card-image">
+              <img src="GAMBAR TARO SINI" alt="GAMBAR TARO SINI">
+            </div>
+            <div class="project-card-body">
+              <div class="project-card-category">IoT / Embedded</div>
+              <h3 class="project-card-title">
+                Smart Home Dashboard
+                <span class="project-card-arrow icon-svg">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </span>
+              </h3>
+              <p class="project-card-desc">An IoT-based smart home monitoring and control dashboard. Displays real-time sensor data including temperature, humidity, and device status.</p>
+              <div class="project-card-tags">
+                <span class="project-tag">Arduino</span>
+                <span class="project-tag">ESP32</span>
+                <span class="project-tag">C++</span>
+                <span class="project-tag">Web</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Card 2: Weather App -->
+          <div class="project-card fade-in fade-in-delay-1" onclick="openProjectModal('project-2')" id="card-project-2">
+            <div class="project-card-image">
+              <img src="GAMBAR TARO SINI" alt="GAMBAR TARO SINI">
+            </div>
+            <div class="project-card-body">
+              <div class="project-card-category">Mobile App</div>
+              <h3 class="project-card-title">
+                Weather Forecast App
+                <span class="project-card-arrow icon-svg">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </span>
+              </h3>
+              <p class="project-card-desc">A mobile weather application with glassmorphism design that shows current weather, 5-day forecast, and air quality index.</p>
+              <div class="project-card-tags">
+                <span class="project-tag">Figma</span>
+                <span class="project-tag">UI/UX</span>
+                <span class="project-tag">Prototype</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Card 3: Portfolio Website -->
+          <div class="project-card fade-in fade-in-delay-2" onclick="openProjectModal('project-3')" id="card-project-3">
+            <div class="project-card-image">
+              <img src="GAMBAR TARO SINI" alt="GAMBAR TARO SINI">
+            </div>
+            <div class="project-card-body">
+              <div class="project-card-category">Web Development</div>
+              <h3 class="project-card-title">
+                Personal Portfolio
+                <span class="project-card-arrow icon-svg">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </span>
+              </h3>
+              <p class="project-card-desc">A modern, responsive portfolio website built from scratch using only HTML, CSS, and vanilla JavaScript with a dark Spotify-inspired theme.</p>
+              <div class="project-card-tags">
+                <span class="project-tag">HTML</span>
+                <span class="project-tag">CSS</span>
+                <span class="project-tag">JavaScript</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Card 4: Task Manager -->
+          <div class="project-card fade-in fade-in-delay-3" onclick="openProjectModal('project-4')" id="card-project-4">
+            <div class="project-card-image">
+              <img src="GAMBAR TARO SINI" alt="GAMBAR TARO SINI">
+            </div>
+            <div class="project-card-body">
+              <div class="project-card-category">Application</div>
+              <h3 class="project-card-title">
+                Task Manager
+                <span class="project-card-arrow icon-svg">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </span>
+              </h3>
+              <p class="project-card-desc">A Kanban-style task management app with drag-and-drop functionality, priority labels, and deadline tracking for team productivity.</p>
+              <div class="project-card-tags">
+                <span class="project-tag">JavaScript</span>
+                <span class="project-tag">LocalStorage</span>
+                <span class="project-tag">Drag & Drop</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== PROJECT DETAIL MODAL ===== -->
+  <div class="project-modal-overlay" id="project-modal-overlay" onclick="closeProjectModal(event)">
+    <div class="project-modal" id="project-modal" onclick="event.stopPropagation()">
+      <div class="project-modal-image" id="modal-image-wrapper">
+        <button class="project-modal-close" id="modal-close-btn" onclick="closeProjectModal()" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <img id="modal-image" src="" alt="">
+      </div>
+      <div class="project-modal-body">
+        <div class="project-modal-category" id="modal-category"></div>
+        <h2 class="project-modal-title" id="modal-title"></h2>
+
+        <div class="project-modal-info" id="modal-info"></div>
+
+        <div class="project-modal-description" id="modal-description"></div>
+
+        <div class="project-modal-tech">
+          <div class="project-modal-tech-title">Tech Stack</div>
+          <div class="project-modal-tags" id="modal-tags"></div>
+        </div>
+
+        <div class="project-modal-highlights">
+          <div class="project-modal-highlights-title">Key Features</div>
+          <ul id="modal-features"></ul>
+        </div>
+
+        <div class="project-modal-actions" id="modal-actions"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer-content">
+        <p class="footer-text">&copy; 2025 Muhammad Reyka Agastya Divaputra. All rights reserved.</p>
+        <nav class="footer-links">
+          <a href="index.html" class="footer-link">Home</a>
+          <a href="about.html" class="footer-link">About</a>
+          <a href="experience.html" class="footer-link">Experience</a>
+          <a href="contact.html" class="footer-link">Contact</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== PROJECT DATA & MODAL SCRIPT ===== -->
+  <script>
+    // Project data (dummy)
+    const projectsData = {
+      'project-1': {
+        image: 'assets/images/projects/project-iot-dashboard.png',
+        category: 'IoT / Embedded',
+        title: 'Smart Home Dashboard',
+        info: [
+          { label: 'Role', value: 'Developer' },
+          { label: 'Duration', value: '3 Months' },
+          { label: 'Status', value: 'Completed' }
+        ],
+        description: `
+          <p>This project is an IoT-based smart home monitoring and control system built using ESP32 microcontroller and various sensors. The dashboard provides a real-time web interface for monitoring temperature, humidity, light intensity, and controlling home devices remotely.</p>
+          <p>The system was developed as a college project for the IoT course, with a focus on creating an intuitive and responsive dashboard that can be accessed from any device on the local network.</p>
+        `,
+        tags: ['Arduino', 'ESP32', 'C++', 'HTML/CSS', 'WebSocket', 'MQTT'],
+        features: [
+          'Real-time temperature and humidity monitoring with DHT22 sensor',
+          'Remote control of lights, fans, and other home devices via relay modules',
+          'Responsive dark-themed web dashboard accessible from any browser',
+          'Historical data logging with visual charts',
+          'Push notification alerts for abnormal sensor readings'
+        ],
+        links: [
+          { label: 'View Source', url: '#', type: 'primary' }
+        ]
+      },
+      'project-2': {
+        image: 'assets/images/projects/project-weather-app.png',
+        category: 'Mobile App',
+        title: 'Weather Forecast App',
+        info: [
+          { label: 'Role', value: 'UI/UX Designer' },
+          { label: 'Duration', value: '2 Weeks' },
+          { label: 'Status', value: 'Prototype' }
+        ],
+        description: `
+          <p>A mobile weather application UI/UX design project created using Figma. The design features a modern glassmorphism aesthetic with smooth gradients, translucent cards, and dynamic weather animations to provide an immersive user experience.</p>
+          <p>The project was designed as part of a UI/UX design course, focusing on user-centered design principles, usability testing, and creating a visually stunning interface that is both functional and beautiful.</p>
+        `,
+        tags: ['Figma', 'UI/UX Design', 'Prototyping', 'Wireframing', 'User Research'],
+        features: [
+          'Glassmorphism-based card design for weather data display',
+          '5-day and hourly weather forecast views',
+          'Air quality index (AQI) monitoring with color-coded severity',
+          'Interactive location search with auto-complete',
+          'Animated weather condition icons and backgrounds'
+        ],
+        links: [
+          { label: 'View Prototype', url: '#', type: 'primary' }
+        ]
+      },
+      'project-3': {
+        image: 'assets/images/projects/project-portfolio-web.png',
+        category: 'Web Development',
+        title: 'Personal Portfolio Website',
+        info: [
+          { label: 'Role', value: 'Full-Stack' },
+          { label: 'Duration', value: '1 Month' },
+          { label: 'Status', value: 'Live' }
+        ],
+        description: `
+          <p>A fully custom-built, multi-page personal portfolio website designed with a dark Spotify-inspired theme. The site is built entirely from scratch using HTML, CSS, and vanilla JavaScript — no frameworks or libraries used.</p>
+          <p>The portfolio showcases my educational background, organizational experiences, technical skills, and projects in a clean, modern, and responsive layout with smooth page transitions and micro-animations.</p>
+        `,
+        tags: ['HTML5', 'CSS3', 'JavaScript', 'Responsive Design', 'SEO'],
+        features: [
+          'Multi-page architecture with consistent navigation and design system',
+          'Custom CSS design tokens for consistent theming (Spotify-inspired dark palette)',
+          'Responsive design that works seamlessly on all device sizes',
+          'SVG-based icons for crisp, scalable visuals',
+          'Fade-in scroll animations and interactive hover effects'
+        ],
+        links: [
+          { label: 'View Live', url: '#', type: 'primary' },
+          { label: 'View Source', url: '#', type: 'outline' }
+        ]
+      },
+      'project-4': {
+        image: 'assets/images/projects/project-task-manager.png',
+        category: 'Application',
+        title: 'Task Manager App',
+        info: [
+          { label: 'Role', value: 'Developer' },
+          { label: 'Duration', value: '2 Months' },
+          { label: 'Status', value: 'In Progress' }
+        ],
+        description: `
+          <p>A Kanban-style task management web application built to boost personal and team productivity. Features a drag-and-drop interface for moving tasks between columns (To Do, In Progress, Done), with support for priority labels and deadline tracking.</p>
+          <p>The app stores all data locally using the browser's LocalStorage API, making it lightweight and privacy-friendly — no backend or account required. Designed for quick daily task organization.</p>
+        `,
+        tags: ['JavaScript', 'HTML5', 'CSS3', 'LocalStorage', 'Drag & Drop API'],
+        features: [
+          'Kanban board layout with To Do, In Progress, and Done columns',
+          'Drag-and-drop task cards between columns using native HTML5 API',
+          'Priority labels (High, Medium, Low) with color coding',
+          'Deadline tracking with overdue visual indicators',
+          'Persistent storage using LocalStorage — works offline'
+        ],
+        links: [
+          { label: 'View Demo', url: '#', type: 'primary' },
+          { label: 'View Source', url: '#', type: 'outline' }
+        ]
+      }
+    };
+
+    // Open modal
+    function openProjectModal(projectId) {
+      const data = projectsData[projectId];
+      if (!data) return;
+
+      const overlay = document.getElementById('project-modal-overlay');
+      const modal = document.getElementById('project-modal');
+
+      // Populate image
+      document.getElementById('modal-image').src = data.image;
+      document.getElementById('modal-image').alt = data.title;
+
+      // Populate text
+      document.getElementById('modal-category').textContent = data.category;
+      document.getElementById('modal-title').textContent = data.title;
+      document.getElementById('modal-description').innerHTML = data.description;
+
+      // Populate info grid
+      const infoHtml = data.info.map(item => `
+        <div class="project-modal-info-item">
+          <div class="project-modal-info-label">${item.label}</div>
+          <div class="project-modal-info-value">${item.value}</div>
+        </div>
+      `).join('');
+      document.getElementById('modal-info').innerHTML = infoHtml;
+
+      // Populate tags
+      const tagsHtml = data.tags.map(tag => `<span class="project-modal-tag">${tag}</span>`).join('');
+      document.getElementById('modal-tags').innerHTML = tagsHtml;
+
+      // Populate features
+      const featuresHtml = data.features.map(f => `<li>${f}</li>`).join('');
+      document.getElementById('modal-features').innerHTML = featuresHtml;
+
+      // Populate actions
+      const actionsHtml = data.links.map(link => {
+        const btnClass = link.type === 'primary' ? 'btn btn-primary' : 'btn btn-outline';
+        return `<a href="${link.url}" target="_blank" rel="noopener noreferrer" class="${btnClass}">${link.label}</a>`;
+      }).join('');
+      document.getElementById('modal-actions').innerHTML = actionsHtml;
+
+      // Show modal
+      document.body.style.overflow = 'hidden';
+      overlay.classList.add('active');
+      modal.scrollTop = 0;
+    }
+
+    // Close modal
+    function closeProjectModal(event) {
+      // If called via overlay click, only close if click is on overlay itself
+      if (event && event.target !== document.getElementById('project-modal-overlay')) return;
+
+      const overlay = document.getElementById('project-modal-overlay');
+      document.body.style.overflow = '';
+      overlay.classList.remove('active');
+    }
+
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeProjectModal();
+      }
+    });
+  </script>
+
+</body>
+</html>
