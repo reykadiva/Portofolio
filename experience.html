@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Organizational experience of Muhammad Reyka Agastya Divaputra on campus and in the community">
+  <title>Experience | Reyka Divaputra</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Internal CSS: specific styles for Experience page -->
+  <style>
+    .experience-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+      margin-bottom: var(--space-3xl);
+    }
+
+    .summary-card {
+      text-align: center;
+      padding: var(--space-xl);
+      background-color: var(--color-bg-secondary);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      transition: all var(--transition-base);
+    }
+
+    .summary-card:hover {
+      border-color: rgba(29, 185, 84, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .summary-icon {
+      font-size: 2rem;
+      margin-bottom: var(--space-sm);
+    }
+
+    .summary-number {
+      font-size: var(--font-size-2xl);
+      font-weight: 700;
+      color: var(--color-accent);
+    }
+
+    .summary-label {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: var(--space-xs);
+    }
+
+    @media (max-width: 600px) {
+      .experience-summary {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVIGATION BAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-logo">Muhammad Reyka</a>
+      <ul class="navbar-menu" id="navbar-menu">
+        <li><a href="index.html" class="navbar-link">Home</a></li>
+        <li><a href="about.html" class="navbar-link">About</a></li>
+        <li><a href="experience.html" class="navbar-link active">Experience</a></li>
+        <li><a href="contact.html" class="navbar-link">Contact</a></li>
+      </ul>
+      <button class="navbar-toggle" id="navbar-toggle" aria-label="Toggle menu" onclick="document.getElementById('navbar-menu').classList.toggle('show')">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content">
+
+    <!-- Page Header -->
+    <header class="page-header" id="experience-header">
+      <div class="container">
+        <div class="divider fade-in"></div>
+        <h1 class="section-title fade-in">Organizational <span class="accent-text">Experience</span></h1>
+        <p class="section-subtitle fade-in fade-in-delay-1">A timeline of my organizational experiences and university activities.</p>
+      </div>
+    </header>
+
+    <!-- Experience Summary -->
+    <section class="section" id="experience-summary">
+      <div class="container">
+
+        <div class="experience-summary">
+          <div class="summary-card fade-in fade-in-delay-1">
+            <div class="summary-icon icon-svg icon-svg-lg" style="color: var(--color-accent);">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="15" y2="16"/></svg>
+            </div>
+            <div class="summary-number">4</div>
+            <div class="summary-label">Total Organizations</div>
+          </div>
+          <div class="summary-card fade-in fade-in-delay-2">
+            <div class="summary-icon icon-svg icon-svg-lg" style="color: var(--color-accent);">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="summary-number">350+</div>
+            <div class="summary-label">People Managed</div>
+          </div>
+          <div class="summary-card fade-in fade-in-delay-3">
+            <div class="summary-icon icon-svg icon-svg-lg" style="color: var(--color-accent);">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="summary-number">2+</div>
+            <div class="summary-label">Years of Experience</div>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="divider"></div>
+        <h2 class="section-title">Timeline</h2>
+        <p class="section-subtitle">Detailed history of my organizational experience.</p>
+
+        <!-- timeline: list of organizational experiences (list element) -->
+        <div class="timeline fade-in">
+
+          <!-- timeline-item: Event Coordinator -->
+          <article class="timeline-item">
+            <div class="timeline-header">
+              <div>
+                <h3 class="timeline-role">Event Coordinator</h3>
+                <p class="timeline-org">Exmazarts — Campus Orientation Program</p>
+              </div>
+              <span class="timeline-period">Jul 2025 — Sep 2025</span>
+            </div>
+            <ul class="timeline-details">
+              <li>Led a team of 10 members in organizing the Campus Orientation Program attended by over 350 participants.</li>
+              <li>Collaborated with the Event Chairperson to design and execute the main event agenda, ensuring smooth coordination across all committees.</li>
+              <li>Achieved a successful and well-received event, gaining positive feedback from participants and appreciation from university executives.</li>
+            </ul>
+          </article>
+
+          <!-- timeline-item: Vice Chairperson -->
+          <article class="timeline-item">
+            <div class="timeline-header">
+              <div>
+                <h3 class="timeline-role">Vice Chairperson</h3>
+                <p class="timeline-org">Paramadina Social Care</p>
+              </div>
+              <span class="timeline-period">Jan 2024 — Mar 2025</span>
+            </div>
+            <ul class="timeline-details">
+              <li>Led and coordinated a team of over 80 active members in managing multiple social and educational programs focused on elementary to high school students.</li>
+              <li>Successfully served as the person-in-charge for several major initiatives such as PSC Peduli Kasih, Biru Muda, and Inauguration Events, ensuring smooth execution and strong team collaboration.</li>
+              <li>Fostered unity and collaboration across all divisions by integrating ideas from various team members, resulting in well-executed and impactful community programs.</li>
+            </ul>
+          </article>
+
+          <!-- timeline-item: Event Division Member -->
+          <article class="timeline-item">
+            <div class="timeline-header">
+              <div>
+                <h3 class="timeline-role">Event Division Member</h3>
+                <p class="timeline-org">Exmazarts — Campus Orientation Program</p>
+              </div>
+              <span class="timeline-period">Jul 2024 — Sep 2024</span>
+            </div>
+            <ul class="timeline-details">
+              <li>Contributed to the planning and development of event concepts, themes, and activity schedules as part of a 40+ member organizing team.</li>
+              <li>Assisted in managing event logistics and ensuring smooth execution for an event attended by around 180 participants.</li>
+              <li>Gained valuable experience in teamwork, event coordination, and creative planning — serving as a foundation for leadership role in the following year's orientation program.</li>
+            </ul>
+          </article>
+
+          <!-- timeline-item: Game Making Division -->
+          <article class="timeline-item">
+            <div class="timeline-header">
+              <div>
+                <h3 class="timeline-role">Game Making Division Member</h3>
+                <p class="timeline-org">IT Fest 4.0 — Universitas Paramadina</p>
+              </div>
+              <span class="timeline-period">May 2024 — Sep 2024</span>
+            </div>
+            <ul class="timeline-details">
+              <li>Contributed to the successful execution of one of IT Fest's key sub-events, promoting creativity and innovation among student participants.</li>
+              <li>Organized the Game Making competition, handling the development of themes, subthemes, technical guidelines, jury selection, and overall event logistics.</li>
+              <li>Collaborated with fellow committee members to ensure a well-structured and engaging competition involving 5–7 participating teams.</li>
+            </ul>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer-content">
+        <p class="footer-text">&copy; 2025 Muhammad Reyka Agastya Divaputra. All rights reserved.</p>
+        <nav class="footer-links">
+          <a href="index.html" class="footer-link">Home</a>
+          <a href="about.html" class="footer-link">About</a>
+          <a href="contact.html" class="footer-link">Contact</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
