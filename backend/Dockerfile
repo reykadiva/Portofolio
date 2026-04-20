@@ -1,36 +1,25 @@
 # ============================================================
-# Dockerfile — Portfolio Backend
-# Base: php:8.2-apache
+# Dockerfile — Portfolio Backend (PHP Built-in Server)
+# Ganti Apache dengan php -S untuk menghindari MPM conflict.
+# PHP built-in server cukup untuk traffic ringan contact form.
 # Deploy target: Railway.app
 # ============================================================
 
-FROM php:8.2-apache
+FROM php:8.2-cli
 
-# Install system dependency libsqlite3-dev + PDO SQLite extension
+# Install PDO SQLite (+ libsqlite3-dev sebagai system dependency)
 RUN apt-get update \
     && apt-get install -y --no-install-recommends libsqlite3-dev \
     && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-install pdo_sqlite
 
-# Fix MPM conflict: mod_php hanya kompatibel dengan mpm_prefork.
-# Disable mpm_event & mpm_worker, lalu aktifkan mpm_prefork + rewrite.
-RUN a2dismod mpm_event mpm_worker 2>/dev/null || true \
-    && a2enmod mpm_prefork rewrite
+# Direktori SQLite — di luar /app agar tidak bisa diakses via HTTP
+RUN mkdir -p /var/www/data && chmod 755 /var/www/data
 
-# Izinkan .htaccess override
-RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
+WORKDIR /app
+COPY . /app/
 
-# Buat direktori SQLite di luar web root (tidak bisa diakses publik)
-RUN mkdir -p /var/www/data && chown www-data:www-data /var/www/data
-
-# Copy semua file ke web root
-COPY . /var/www/html/
-RUN chown -R www-data:www-data /var/www/html
-
-# Startup script: Railway inject $PORT secara dinamis,
-# script ini update konfigurasi Apache sebelum start.
-RUN printf '#!/bin/bash\nPORT=${PORT:-80}\nsed -i "s/Listen 80/Listen $PORT/" /etc/apache2/ports.conf\nsed -i "s/<VirtualHost \*:80>/<VirtualHost *:$PORT>/" /etc/apache2/sites-enabled/000-default.conf\nexec apache2-foreground\n' \
-    > /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
-
+# Railway inject $PORT secara dinamis.
+# php -S langsung support env var tanpa konfigurasi tambahan.
 EXPOSE 80
-CMD ["/usr/local/bin/start.sh"]
+CMD ["sh", "-c", "php -S 0.0.0.0:${PORT:-80} -t /app/ /app/router.php"]
