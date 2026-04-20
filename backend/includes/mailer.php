@@ -64,7 +64,7 @@ Pesan:
 Balas langsung ke email pengirim: {$email}
 
 Salam,
-{$GLOBALS['_SITE_NAME']}
+Muhammad Reyka — Portfolio
 EOL;
 
     $adminHeaders  = "From: noreply@portfolio.local\r\n";
@@ -72,7 +72,7 @@ EOL;
     $adminHeaders .= "MIME-Version: 1.0\r\n";
     $adminHeaders .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
-    $adminSent = mail(ADMIN_EMAIL, $adminSubject, $adminBody, $adminHeaders);
+    $adminSent = @mail(ADMIN_EMAIL, $adminSubject, $adminBody, $adminHeaders);
 
     // ------------------------------------------------------------------
     // 2. Auto-reply ke pengirim
@@ -105,7 +105,7 @@ EOL;
     $replyHeaders .= "MIME-Version: 1.0\r\n";
     $replyHeaders .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
-    mail($email, $replySubject, $replyBody, $replyHeaders);
+    @mail($email, $replySubject, $replyBody, $replyHeaders);
 
     return $adminSent;
 }

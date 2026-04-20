@@ -24,6 +24,9 @@ require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/validate.php';
 require_once __DIR__ . '/includes/mailer.php';
 
+// Matikan error display agar response murni JSON dan tidak break
+ini_set('display_errors', '0');
+
 // ============================================================
 // 1. CORS Headers — WAJIB sebelum output apapun
 // ============================================================
