@@ -7,8 +7,12 @@
 
 FROM php:8.2-apache
 
-# Install PDO SQLite extension
-RUN docker-php-ext-install pdo_sqlite
+# Install system dependency libsqlite3-dev DULU, baru install ekstensi PHP
+# Tanpa ini, docker-php-ext-install pdo_sqlite akan gagal
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libsqlite3-dev \
+    && rm -rf /var/lib/apt/lists/* \
+    && docker-php-ext-install pdo_sqlite
 
 # Enable Apache mod_rewrite untuk .htaccess routing
 RUN a2enmod rewrite
@@ -28,11 +32,7 @@ RUN chown -R www-data:www-data /var/www/html
 # ── Startup script ──────────────────────────────────────────
 # Railway meng-inject PORT secara dinamis. Script ini membaca
 # $PORT dan mengkonfigurasi Apache sebelum start.
-RUN printf '#!/bin/bash\n\
-PORT=${PORT:-80}\n\
-sed -i "s/Listen 80/Listen $PORT/" /etc/apache2/ports.conf\n\
-sed -i "s/<VirtualHost \*:80>/<VirtualHost *:$PORT>/" /etc/apache2/sites-enabled/000-default.conf\n\
-exec apache2-foreground\n' > /usr/local/bin/start.sh \
+RUN printf '#!/bin/bash\nPORT=${PORT:-80}\nsed -i "s/Listen 80/Listen $PORT/" /etc/apache2/ports.conf\nsed -i "s/<VirtualHost \*:80>/<VirtualHost *:$PORT>/" /etc/apache2/sites-enabled/000-default.conf\nexec apache2-foreground\n' > /usr/local/bin/start.sh \
     && chmod +x /usr/local/bin/start.sh
 
 # Expose PORT (Railway override ini otomatis)
