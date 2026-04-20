@@ -8,8 +8,8 @@
 
 function sendTelegramMessage(array $data, string $time): bool
 {
-    $token  = getenv('TELEGRAM_BOT_TOKEN');
-    $chatId = getenv('TELEGRAM_CHAT_ID');
+    $token  = getenv('TELEGRAM_BOT_TOKEN') ?: ($_SERVER['TELEGRAM_BOT_TOKEN'] ?? ($_ENV['TELEGRAM_BOT_TOKEN'] ?? ''));
+    $chatId = getenv('TELEGRAM_CHAT_ID') ?: ($_SERVER['TELEGRAM_CHAT_ID'] ?? ($_ENV['TELEGRAM_CHAT_ID'] ?? ''));
 
     // Jika environment variable belum diset, loncati pengiriman tanpa error mencolok
     if (empty($token) || empty($chatId)) {
