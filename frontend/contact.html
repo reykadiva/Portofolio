@@ -531,9 +531,7 @@
     'use strict';
 
     // ── Config ──────────────────────────────────────────────────────────
-    // Setelah deploy Render, ganti RENDER_URL dengan URL asli,
-    // contoh: 'https://portofolio-backend.onrender.com/contact.php'
-    const BACKEND_URL = 'RENDER_URL';
+    const BACKEND_URL = 'https://portofolio-production-f36e.up.railway.app/contact.php';
 
     // Label tampilan untuk nilai category
     const CATEGORY_LABELS = {
@@ -614,11 +612,6 @@
       setLoading(true);
 
       try {
-        // Cek apakah URL masih placeholder
-        if (BACKEND_URL === 'RENDER_URL') {
-          showErrors(['Backend URL belum dikonfigurasi. Deploy ke Render.com terlebih dahulu, lalu update RENDER_URL di contact.html.']);
-          return;
-        }
 
         var response = await fetch(BACKEND_URL, {
           method : 'POST',
