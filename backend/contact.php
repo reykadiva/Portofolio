@@ -23,6 +23,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/validate.php';
 require_once __DIR__ . '/includes/mailer.php';
+require_once __DIR__ . '/includes/telegram.php';
 
 // Matikan error display agar response murni JSON dan tidak break
 ini_set('display_errors', '0');
@@ -136,16 +137,22 @@ try {
 }
 
 // ============================================================
-// 10. Kirim email
+// 10. Kirim notifikasi (Email & Telegram)
 // ============================================================
 $now  = new DateTime('now', new DateTimeZone('Asia/Jakarta'));
 $time = $now->format('d M Y, H:i');
 
-// Email error tidak membatalkan response sukses
+// Telegram (error tidak membatalkan response sukses)
+try {
+    sendTelegramMessage($data, $time);
+} catch (Exception $e) {
+    error_log('[telegram_exception] ' . $e->getMessage());
+}
+
+// Email (error tidak membatalkan response sukses)
 try {
     sendEmails($data, $time);
 } catch (Exception $e) {
-    // Log tapi tetap sukses
     error_log('[mailer] ' . $e->getMessage());
 }
 
