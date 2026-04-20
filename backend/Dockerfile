@@ -1,41 +1,36 @@
 # ============================================================
 # Dockerfile — Portfolio Backend
 # Base: php:8.2-apache
-# Ekstensi: pdo_sqlite
-# Deploy target: Railway.app (PORT env var di-inject otomatis)
+# Deploy target: Railway.app
 # ============================================================
 
 FROM php:8.2-apache
 
-# Install system dependency libsqlite3-dev DULU, baru install ekstensi PHP
-# Tanpa ini, docker-php-ext-install pdo_sqlite akan gagal
+# Install system dependency libsqlite3-dev + PDO SQLite extension
 RUN apt-get update \
     && apt-get install -y --no-install-recommends libsqlite3-dev \
     && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-install pdo_sqlite
 
-# Enable Apache mod_rewrite untuk .htaccess routing
-RUN a2enmod rewrite
+# Fix MPM conflict: mod_php hanya kompatibel dengan mpm_prefork.
+# Disable mpm_event & mpm_worker, lalu aktifkan mpm_prefork + rewrite.
+RUN a2dismod mpm_event mpm_worker 2>/dev/null || true \
+    && a2enmod mpm_prefork rewrite
 
-# Izinkan .htaccess override di direktori web root
+# Izinkan .htaccess override
 RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
 
-# Buat direktori untuk SQLite database (writable, di luar web root)
+# Buat direktori SQLite di luar web root (tidak bisa diakses publik)
 RUN mkdir -p /var/www/data && chown www-data:www-data /var/www/data
 
-# Copy semua file backend ke web root Apache
+# Copy semua file ke web root
 COPY . /var/www/html/
-
-# Pastikan permissions benar
 RUN chown -R www-data:www-data /var/www/html
 
-# ── Startup script ──────────────────────────────────────────
-# Railway meng-inject PORT secara dinamis. Script ini membaca
-# $PORT dan mengkonfigurasi Apache sebelum start.
-RUN printf '#!/bin/bash\nPORT=${PORT:-80}\nsed -i "s/Listen 80/Listen $PORT/" /etc/apache2/ports.conf\nsed -i "s/<VirtualHost \*:80>/<VirtualHost *:$PORT>/" /etc/apache2/sites-enabled/000-default.conf\nexec apache2-foreground\n' > /usr/local/bin/start.sh \
-    && chmod +x /usr/local/bin/start.sh
+# Startup script: Railway inject $PORT secara dinamis,
+# script ini update konfigurasi Apache sebelum start.
+RUN printf '#!/bin/bash\nPORT=${PORT:-80}\nsed -i "s/Listen 80/Listen $PORT/" /etc/apache2/ports.conf\nsed -i "s/<VirtualHost \*:80>/<VirtualHost *:$PORT>/" /etc/apache2/sites-enabled/000-default.conf\nexec apache2-foreground\n' \
+    > /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
 
-# Expose PORT (Railway override ini otomatis)
 EXPOSE 80
-
 CMD ["/usr/local/bin/start.sh"]
