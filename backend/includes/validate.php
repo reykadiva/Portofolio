@@ -12,7 +12,7 @@ require_once __DIR__ . '/db.php';
 const ALLOWED_CATEGORIES = ['collaboration', 'hiring', 'project', 'just_saying'];
 
 /** Rate limit: maksimal N pesan per IP per jam */
-const RATE_LIMIT_MAX  = 5;
+const RATE_LIMIT_MAX  = 50; // Ditingkatkan sementara untuk mempermudah testing
 const RATE_LIMIT_HOUR = 3600; // detik
 
 /**
