@@ -22,7 +22,7 @@ export default function Contact() {
       setFeedback({ status: "success", message: result.message || "Message sent successfully!" });
       (event.target as HTMLFormElement).reset();
     } else {
-      setFeedback({ status: "error", message: "Ada kesalahan pada form:", errors: result.errors });
+      setFeedback({ status: "error", message: result.message || "Ada kesalahan pada form:", errors: result.errors });
     }
   }
 
