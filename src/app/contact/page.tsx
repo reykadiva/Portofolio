@@ -19,7 +19,7 @@ export default function Contact() {
 
     setIsPending(false);
     if (result.status === "success") {
-      setFeedback({ status: "success", message: result.message });
+      setFeedback({ status: "success", message: result.message || "Message sent successfully!" });
       (event.target as HTMLFormElement).reset();
     } else {
       setFeedback({ status: "error", message: "Ada kesalahan pada form:", errors: result.errors });
