@@ -1,5 +1,5 @@
 "use client";
-
+// Force update for Vercel deployment
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Linkedin, Github, Send, CheckCircle2, AlertCircle } from "lucide-react";
