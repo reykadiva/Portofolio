@@ -80,9 +80,10 @@ export default function Contact() {
               <select
                 name="category"
                 required
+                defaultValue=""
                 className="w-full bg-bg-elevated border border-border px-4 py-3 rounded-xl focus:border-accent focus:ring-1 focus:ring-accent transition-all outline-none appearance-none"
               >
-                <option value="" disabled selected>Select a category…</option>
+                <option value="" disabled>Select a category…</option>
                 <option value="collaboration">Collaboration</option>
                 <option value="hiring">Hiring / Recruitment</option>
                 <option value="project">Project Inquiry</option>
