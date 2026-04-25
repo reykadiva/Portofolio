@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg-primary: #121212;
+  --color-bg-secondary: #181818;
+  --color-bg-elevated: #282828;
+  --color-bg-highlight: #333333;
+  --color-accent: #1DB954;
+  --color-accent-hover: #1ed760;
+  --color-accent-dark: #158a3e;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #B3B3B3;
+  --color-text-muted: #727272;
+  --color-border: #404040;
+  --color-border-light: #535353;
+}
+
+@layer base {
+  body {
+    @apply bg-bg-primary text-text-primary font-primary antialiased;
+  }
+}
+
+.icon-svg {
+  @apply inline-block w-6 h-6 shrink-0;
+}
+
+.icon-svg svg {
+  @apply w-full h-full fill-current;
+}
