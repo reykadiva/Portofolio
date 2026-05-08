@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="id">
       <body className={`${inter.variable} font-primary antialiased bg-bg-primary text-text-primary`}>
         <Navbar />
-        <main className="pt-16 min-h-[calc(100vh-64px)]">
+        <main className="pt-14 sm:pt-16 min-h-[calc(100vh-56px)] sm:min-h-[calc(100vh-64px)]">
           {children}
         </main>
         <Footer />

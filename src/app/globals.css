@@ -19,17 +19,25 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 @layer base {
   body {
     @apply bg-bg-primary text-text-primary font-primary antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Prevent horizontal scroll on all pages */
+  #__next,
+  main {
+    overflow-x: hidden;
   }
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -51,4 +59,42 @@ html {
 
 .icon-svg svg {
   @apply w-full h-full fill-current;
+}
+
+/* Mobile menu slide-down animation */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-down {
+  animation: slideDown 0.2s ease-out;
+}
+
+/* Ensure images don't overflow on mobile */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Better touch targets on mobile */
+@media (max-width: 640px) {
+  a, button {
+    min-height: 36px;
+  }
+
+  /* Fix for select dropdown on mobile */
+  select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23727272' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 1.25em 1.25em;
+    padding-right: 2.5rem;
+  }
 }
