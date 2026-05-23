@@ -21,11 +21,4 @@ To make it easy to debug and maintain, the project is organized as follows:
 - `package.json`: Manages dependencies and environment configuration.
 
 ## 🚀 Deployment
-Hosted on **Vercel** for maximum speed and seamless integration.
-
-### Environment Variables Required:
-- `TELEGRAM_BOT_TOKEN`
-- `TELEGRAM_CHAT_ID`
-
----
-*Built with ❤️ by Muhammad Reyka.*
+Hosted on **Vercel** for maximum speed and flexibelity
