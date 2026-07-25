@@ -147,29 +147,7 @@ export const projectsData = [
       { label: "View Source", url: "https://github.com/reykadiva/bebeautyproject", type: "outline" },
     ],
   },
-  {
-    id: "project-3",
-    title: "Personal Portfolio Website",
-    category: "Web Development",
-    description:
-      "A modern, responsive portfolio website built from scratch using only HTML, CSS, and vanilla JavaScript with a dark Spotify-inspired theme.",
-    longDescription: `
-      <p>A fully custom-built, multi-page personal portfolio website designed with a dark Spotify-inspired theme. The site is built entirely from scratch using HTML, CSS, and vanilla JavaScript — no frameworks or libraries used.</p>
-      <p>The portfolio showcases my educational background, organizational experiences, technical skills, and projects in a clean, modern, and responsive layout with smooth page transitions and micro-animations.</p>
-    `,
-    image: "/profile2.jpeg",
-    tags: ["HTML5", "CSS3", "JavaScript", "Responsive Design", "SEO"],
-    features: [
-      "Multi-page architecture with consistent design system",
-      "Custom CSS design tokens (Spotify-inspired)",
-      "Responsive design for all device sizes",
-      "SVG-based icons for crisp visuals",
-      "Fade-in scroll animations",
-    ],
-    links: [
-      { label: "View Source", url: "https://github.com/reykadiva/Portofolio", type: "primary" },
-    ],
-  },
+
 ];
 
 // ============================================================
