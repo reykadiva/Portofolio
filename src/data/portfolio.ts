@@ -156,7 +156,7 @@ export const projectsData = [
     longDescription: `
       <p>Scan-Chan adalah game Virtual Pet berbasis web yang memadukan estetika pixel art retro dengan fitur modern seperti barcode/QR scanner. Pemain dapat merawat virtual pet, memberi makan, menyelesaikan daily missions, dan mendengarkan efek suara 8-bit yang dihasilkan secara prosedural via Web Audio API.</p>
     `,
-    image: "/bebeauty.jpg",
+    image: "/scan-chan.png",
     tags: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Prisma", "Web Audio API", "Pixel Art"],
     features: [
       "Virtual pet interactive dashboard dengan animasi retro pixel art",
