@@ -147,7 +147,27 @@ export const projectsData = [
       { label: "View Source", url: "https://github.com/reykadiva/bebeautyproject", type: "outline" },
     ],
   },
-
+  {
+    id: "project-3",
+    title: "Scan-Chan — Virtual Pet & Scanner Game",
+    category: "Web Game / Next.js",
+    description:
+      "An interactive Virtual Pet web game featuring pixel art UI, QR/barcode scanning mechanics, Web Audio API sounds, and haptic feedback.",
+    longDescription: `
+      <p>Scan-Chan adalah game Virtual Pet berbasis web yang memadukan estetika pixel art retro dengan fitur modern seperti barcode/QR scanner. Pemain dapat merawat virtual pet, memberi makan, menyelesaikan daily missions, dan mendengarkan efek suara 8-bit yang dihasilkan secara prosedural via Web Audio API.</p>
+    `,
+    image: "/bebeauty.jpg",
+    tags: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Prisma", "Web Audio API", "Pixel Art"],
+    features: [
+      "Virtual pet interactive dashboard dengan animasi retro pixel art",
+      "Sistem QR/Barcode Scanner untuk interaksi game",
+      "Procedural 8-bit sound effects & haptic feedback",
+      "Particle systems, level progress, dan milestone celebration animations",
+    ],
+    links: [
+      { label: "View Source", url: "https://github.com/reykadiva/scan-chan", type: "primary" },
+    ],
+  },
 ];
 
 // ============================================================
