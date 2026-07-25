@@ -168,6 +168,26 @@ export const projectsData = [
       { label: "View Source", url: "https://github.com/reykadiva/scan-chan", type: "primary" },
     ],
   },
+  {
+    id: "project-4",
+    title: "PasarNusa — Digital Marketplace Platform",
+    category: "E-Commerce / Full-Stack",
+    description:
+      "A digital marketplace platform for local Indonesian products powered by Next.js, Supabase, MongoDB, and Prisma.",
+    longDescription: `
+      <p>PasarNusa adalah platform marketplace digital yang mengintegrasikan ekosistem UMKM dan produk lokal Nusantara. Menggunakan arsitektur modern Next.js dengan gabungan database Supabase dan MongoDB via Prisma ORM untuk menjamin skalabilitas dan performa tinggi.</p>
+    `,
+    image: "/bebeauty.jpg",
+    tags: ["Next.js", "React", "TypeScript", "Supabase", "MongoDB", "Prisma"],
+    features: [
+      "Katalog produk marketplace & sistem kategori produk lokal",
+      "Autentikasi & manajemen user via Supabase SSR",
+      "Penyimpanan dan manajemen data fleksibel dengan MongoDB & Prisma",
+    ],
+    links: [
+      { label: "View Source", url: "https://github.com/reykadiva/PasarNusa", type: "primary" },
+    ],
+  },
 ];
 
 // ============================================================
