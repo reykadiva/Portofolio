@@ -177,7 +177,7 @@ export const projectsData = [
     longDescription: `
       <p>PasarNusa adalah platform marketplace digital yang mengintegrasikan ekosistem UMKM dan produk lokal Nusantara. Menggunakan arsitektur modern Next.js dengan gabungan database Supabase dan MongoDB via Prisma ORM untuk menjamin skalabilitas dan performa tinggi.</p>
     `,
-    image: "/bebeauty.jpg",
+    image: "/pasarnusa.png",
     tags: ["Next.js", "React", "TypeScript", "Supabase", "MongoDB", "Prisma"],
     features: [
       "Katalog produk marketplace & sistem kategori produk lokal",
